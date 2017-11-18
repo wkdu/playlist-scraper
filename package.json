@@ -1,0 +1,37 @@
+{
+  "name": "wkdu-playlist-scraper",
+  "version": "1.0.0",
+  "description": "Playlist scraper for wkdu.org (D6)",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "node_modules/.bin/eslint app.js charts.js charts/; exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wkdu/playlist-scraper.git"
+  },
+  "keywords": [
+    "scraper",
+    "wkdu"
+  ],
+  "author": "Peter Liu (WKDU 91.7FM)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wkdu/playlist-scraper/issues"
+  },
+  "homepage": "https://github.com/wkdu/playlist-scraper#readme",
+  "engines": {
+    "node": ">=6.7.0"
+  },
+  "dependencies": {
+    "async": "^2.6.0",
+    "colors": "^1.1.2",
+    "json2csv": "^3.11.5",
+    "minimist": "^1.2.0",
+    "scrape-it": "^4.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.11.0"
+  }
+}
