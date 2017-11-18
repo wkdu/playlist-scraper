@@ -2,8 +2,11 @@ const colors = require('colors/safe');
 const argv = require('minimist')(process.argv.slice(2));
 const async = require('async');
 const scrapeIt = require('scrape-it');
-const json2csv = require('json2csv');
+const csvjs = require('csv.js');
 const fs = require('fs');
+const stringUtil = require('./lib/stringUtil');
+
+const outputLocation = 'data/'; // = ''; // save to data folder or alternatively save to root
 
 // set log text
 const log_text = {
@@ -14,7 +17,7 @@ const log_text = {
 };
 
 // check for required start/end args
-if (!argv.start && !argv.end) {
+if (!argv.start || !argv.end) {
     console.log(`${log_text.error} Requires two content nodeID arguments [start, end] to begin scraping playlists. See README.`);
     process.exit();
 } else if (typeof argv.start !== 'number' || typeof argv.end !== 'number') {
@@ -51,6 +54,7 @@ async.eachLimit(urls, 3, function(playlistUrl, callback) {
         },
         show: '.panel-col-first .blockpanel .pane-title a'
     }).then(playlist => {
+        const newObj = {};
         let nid = playlistUrl.substring(25); // 25 = "http://wkdu.org/playlist/".length
 
         // invalid or empty playlist 
@@ -59,6 +63,18 @@ async.eachLimit(urls, 3, function(playlistUrl, callback) {
         } else {
             playlist.nid = nid;
             playlist.url = playlistUrl;
+
+            // escape raw text in track info
+            playlist.tracks.map(trk => {
+                return {
+                    artist: stringUtil.escapeRaw(trk.artist),
+                    title: stringUtil.escapeRaw(trk.title),
+                    album: stringUtil.escapeRaw(trk.album),
+                    label: stringUtil.escapeRaw(trk.label),
+                    new: trk.new,
+                    local: trk.local
+                };
+            });
 
             // filter out tracks to only new/local if needed
             if (argv.tracks === 'new' && argv.charts !== 'local') {
@@ -98,7 +114,6 @@ function gatherTracks() {
         return plist.tracks.map(track => {
             track.show = plist.show;
             track.url = plist.url;
-            track.nodeID = plist.nid;
             return track;
         });
     }).reduce((a, b) => a.concat(b), []);
@@ -111,25 +126,24 @@ function saveInfo(playlists, tracks) {
 // total there should be 2 csv/json files minimum, 3 if charting is enabled
 
     // filename should be playlists-${argv.start}-${argv.end}.json or tracks-${argv.start}-${argv.end}.csv/json
-    const playlistsFile = `playlists-${argv.start}-${argv.end}.json`;
+    const playlistsFile = `${outputLocation}playlists-${argv.start}-${argv.end}.json`;
     const playlistsData = JSON.stringify(playlists);
 
-    const tracksFile = `tracks-${argv.tracks}-${argv.start}-${argv.end}.${argv.format}`;
-    const fields = ['artist', 'title', 'album', 'label', 'new', 'local', 'show', 'url'];
+    const tracksFile = `${outputLocation}tracks-${argv.tracks}-${argv.start}-${argv.end}.${argv.format}`;
 
     let tracksData = JSON.stringify(tracks);
     if (argv.format === 'csv') {
-        tracksData = json2csv({ data: tracks, fields });
+        tracksData = csvjs.encode(tracksData);
     }
 
     fs.writeFile(playlistsFile, playlistsData, function(err) {
         if (err) throw err;
-        console.log(`${log_text.success} Playlists file saved as ${playlistsFile}`);
+        console.log(`${log_text.success} Playlists file saved to ${playlistsFile}`);
     });
 
     fs.writeFile(tracksFile, tracksData, function(err) {
         if (err) throw err;
-        console.log(`${log_text.success} Tracks file saved as ${tracksFile}`);
+        console.log(`${log_text.success} Tracks file saved to ${tracksFile}`);
     });
 }
 
@@ -140,19 +154,23 @@ function calculateCharts(tracks) {
     }
 
     // save to json for use by charts.js process
-    const filename = `tracks-prechart-${argv.start}-${argv.end}.json`;
+    const filename = `${outputLocation}tracks-${argv.charts}-${argv.start}-${argv.end}.json`;
     fs.writeFile(filename, JSON.stringify(tracks), function(err) {
         if (err) throw err;
-        console.log(`${log_text.success} Pre-chart JSON file saved as ${filename}. Starting charts.js process...`);
+        console.log(`${log_text.success} Pre-chart JSON file saved to ${filename}. Starting charts.js process...`);
+        startChartsApp(filename);
     });
+}
 
+function startChartsApp(filename) {
     // kick off child process to calculate charts
     const childProcess = require('child_process');
     const path = require('path');
     const cp = childProcess.fork(path.join(__dirname, 'charts.js'), ['--file', filename]);
 
     cp.on('exit', function (code, signal) {
-        console.log(`${log_text.success} Finished charting.`, {code: code, signal: signal});
+        if (!code) console.log(`${log_text.success} Chart calculation app finished. (code: ${code}, signal: ${signal})\n`);
+        else console.log(`${log_text.warning} Chart calculation app finished with possible errors. (code: ${code}, signal: ${signal})\n`);
     });
     cp.on('error', console.error.bind(console));
 }

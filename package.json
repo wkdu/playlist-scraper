@@ -2,10 +2,10 @@
   "name": "wkdu-playlist-scraper",
   "version": "1.0.0",
   "description": "Playlist scraper for wkdu.org (D6)",
-  "main": "app.js",
+  "main": "scraper.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "node_modules/.bin/eslint app.js charts.js charts/; exit 0"
+    "lint": "node_modules/.bin/eslint scraper.js charts.js lib/; exit 0"
   },
   "repository": {
     "type": "git",
@@ -27,7 +27,7 @@
   "dependencies": {
     "async": "^2.6.0",
     "colors": "^1.1.2",
-    "json2csv": "^3.11.5",
+    "csv.js": "^1.0.3",
     "minimist": "^1.2.0",
     "scrape-it": "^4.0.0"
   },
