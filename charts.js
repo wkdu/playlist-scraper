@@ -92,7 +92,7 @@ csvStringify(chartsData, { columns: csvFields, header: true }, function(err, csv
         }
 
         // output results
-        console.log(`${log_text.results} Charts tabulations for '${argv.count}' completed. \n\n\t${tsv.replace(/\n/g, '\n\t')}\n`);
+        console.log(`${log_text.results} Charts tabulations for '${argv.count}' completed. \n\n\t${tsv.replace(/\n/g, '\n\t')}`);
     }
 });
 

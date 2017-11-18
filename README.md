@@ -29,6 +29,7 @@ Scrapes track information from wkdu.org playlists and optionally calculates musi
 * `tracks` (`all`, `local`, or `new`, defaults to `all`) - 
 * `format` (`csv`, `json`, or `txt`, defaults to `csv`) - Output file format
 * `sort` (`atoz` or `count`, defaults to `count`) - Sort output ascending alphabetically (`atoz`) or descending numerically (`count`)
+
 **Note**: Chart calculation is not case-sensitive but it does not account for spelling and grammatical mistakes in track information.
 
 ## Installation
@@ -53,19 +54,21 @@ node charts --file data/filename
 
 ```
 
-All output files are saved to `data/` directory by default.
+All output files are saved to the `data/` directory by default.
 
 ## Example Output
 
-See [data/examples folder](data/examples) for raw files and additional output examples. Example output is gathered from node IDs 47420 to 47447 (Sunday 11/12/2017 to Saturday 11/18/2017).
+See [data/examples folder](data/examples) for raw files and additional output examples.
+
+Example output below is gathered from node IDs 47420 to 47447 (Sunday 11/12/2017 to Saturday 11/18/2017)
 
 ### New charts for week of 11/12/2017
 
-Raw files are located at [data/examples/local](data/examples/new).
+Raw files are located at [data/examples/local](data/examples/local).
 
 #### Albums sorted numerically (by count)
 
-```bash
+```
 $ node scraper --start 47420 --end 47447 --charts new
 
 INFO: Playlist #47421 added with 25 tracks. (Talk of the Town on Sun 11/12/17)
@@ -189,7 +192,7 @@ SUCCESS: Chart calculation app finished. (code: 0, signal: null)
 
 #### Albums sorted alphabetically (by atoz)
 
-```bash
+```
 $ node charts --file data/examples/new/tracks-new-47420-47447.json  --count album --sort atoz
 
 SUCCESS: Charts file saved to data/examples/new/charts-album_sort-count.csv
