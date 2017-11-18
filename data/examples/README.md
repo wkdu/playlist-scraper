@@ -8,14 +8,14 @@ Raw "all tracks" file: [tracks-all-47420-47447.csv](all/tracks-all-47420-47447.c
 
 * [New charts for week of 11/12/2017](#new-charts-for-week-of-11122017)
   * [Albums sorted numerically (by count)](#albums-sorted-numerically-by-count)
-  * [Albums sorted alphabetically (by a-z)](#albums-sorted-alphabetically-by-az)
+  * [Albums sorted alphabetically (by a-z)](#albums-sorted-alphabetically-by-a-z)
   * [Artists sorted numerically](#artists-sorted-numerically)
 * [Local charts for week of 11/12/2017](#local-charts-for-week-of-11122017)
   * [Albums sorted numerically (by count)](#albums-sorted-numerically-by-count-1)
-  * [Albums sorted alphabetically (by a-z)](#albums-sorted-alphabetically-by-atoz-1)
+  * [Albums sorted alphabetically (by a-z)](#albums-sorted-alphabetically-by-a-z-1)
 * [All charts for week of 11/12/2017](#all-charts-for-week-of-11122017)
   * [Labels sorted numerically (by count)](#labels-sorted-numerically-by-count)
-  * [Labels sorted alphabetically (by a-z)](#labels-sorted-alphabetically-by-az)
+  * [Labels sorted alphabetically (by a-z)](#labels-sorted-alphabetically-by-a-z)
 
 ## New charts for week of 11/12/2017
 
