@@ -1,14 +1,27 @@
-## Example Output
+# Example Output
 
 Example output is gathered from node IDs 47420 to 47447 (Sunday 11/12/2017 to Saturday 11/18/2017).
 
 Raw "all tracks" file: [tracks-all-47420-47447.csv](all/tracks-all-47420-47447.csv)
 
-### New charts for week of 11/12/2017
+## Contents
+
+* [New charts for week of 11/12/2017](#new-charts-for-week-of-11122017)
+  * [Albums sorted numerically (by count)](#albums-sorted-numerically-by-count)
+  * [Albums sorted alphabetically (by a-z)](#albums-sorted-alphabetically-by-az)
+  * [Artists sorted numerically](#artists-sorted-numerically)
+* [Local charts for week of 11/12/2017](#local-charts-for-week-of-11122017)
+  * [Albums sorted numerically (by count)](#albums-sorted-numerically-by-count-1)
+  * [Albums sorted alphabetically (by a-z)](#albums-sorted-alphabetically-by-atoz-1)
+* [All charts for week of 11/12/2017](#all-charts-for-week-of-11122017)
+  * [Labels sorted numerically (by count)](#labels-sorted-numerically-by-count)
+  * [Labels sorted alphabetically (by a-z)](#labels-sorted-alphabetically-by-az)
+
+## New charts for week of 11/12/2017
 
 Raw files are located at [data/examples/new](new).
 
-#### Albums sorted numerically (by count)
+### Albums sorted numerically (by count)
 
 ```
 $ node scraper --start 47420 --end 47447 --charts new
@@ -134,7 +147,7 @@ SUCCESS: Chart calculation app finished. (code: 0, signal: null)
 
 Raw file: [charts-album_sort-count.csv](new/charts-album_sort-count.csv)
 
-#### Albums sorted alphabetically (by atoz)
+### Albums sorted alphabetically (by a-z)
 
 ```
 $ node charts --file data/examples/new/tracks-new-47420-47447.json  --count album --sort atoz
@@ -227,7 +240,7 @@ SUCCESS: Charts file saved to data/charts-album_sort-atoz.csv
 
 Raw file: [charts-album_sort-atoz.csv](new/charts-album_sort-atoz.csv)
 
-#### Artists sorted numerically
+### Artists sorted numerically
 
 ```
 $ node charts --file data/examples/new/tracks-new-47420-47447.json  --count artist --sort count
@@ -320,11 +333,11 @@ SUCCESS: Charts file saved to data/charts-artist_sort-count.csv
 
 Raw file: [charts-artist_sort-count.csv](new/charts-artist_sort-count.csv)
 
-### Local charts for week of 11/12/2017
+## Local charts for week of 11/12/2017
 
 Raw files are located at [data/examples/local](/local).
 
-#### Albums sorted numerically (by count)
+### Albums sorted numerically (by count)
 
 ```
 $ node scraper --start 47420 --end 47447 --format csv --charts local
@@ -393,7 +406,7 @@ SUCCESS: Chart calculation app finished. (code: 0, signal: null)
 
 Raw file: [charts-album_sort-count.csv](local/charts-album_sort-count.csv)
 
-#### Albums sorted alphabetically (by atoz)
+### Albums sorted alphabetically (by a-z)
 
 ```
 $ node charts --file data/examples/local/tracks-local-47420-47447.json  --count album --sort atoz
@@ -429,11 +442,11 @@ SUCCESS: Charts file saved to data/charts-album_sort-atoz.csv
 
 Raw file: [charts-album_sort-atoz.csv](local/charts-album_sort-atoz.csv)
 
-### All charts for week of 11/12/2017
+## All charts for week of 11/12/2017
 
 Raw files are located at [data/examples/all](all).
 
-#### Labels sorted numerically (by count)
+### Labels sorted numerically (by count)
 
 ```
 $ node charts --file data/examples/all/tracks-all-47420-47447.csv  --count label
@@ -564,7 +577,7 @@ SUCCESS: Charts file saved to data/charts-label_sort-count.csv
 
 Raw file: [charts-label_sort-count.csv](all/charts-label_sort-count.csv)
 
-#### Labels sorted alphabetically (by atoz)
+### Labels sorted alphabetically (by a-z)
 ```
 $ node charts --file data/examples/all/tracks-all-47420-47447.csv  --count label --sort atoz
 
