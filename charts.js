@@ -2,7 +2,8 @@ const colors = require('colors/safe');
 const argv = require('minimist')(process.argv.slice(2));
 const fs = require('fs');
 const path = require('path');
-const csvjs = require('csv.js');
+const csvParse = require('csv-parse/lib/sync');
+const csvStringify = require('csv-stringify');
 const chartCounts = require('./lib/chartCounts');
 const sortUtil = require('./lib/sortUtil');
 
@@ -42,9 +43,8 @@ let tracks = [];
 // check file format (csv or json)
 const fileExt = inputFile.substring(inputFile.lastIndexOf('.')+1);
 if (fileExt === 'csv') {
-    console.log(inputData);
-    tracks = csvjs.decode(inputData, ',');
-    console.log(tracks);
+    // console.log('inputData: ', inputData);
+    tracks = csvParse(inputData, { columns: true });
 } else if (fileExt === 'json') {
     tracks = JSON.parse(inputData);
 } else {
@@ -73,20 +73,32 @@ const chartsDataJSON = JSON.stringify(chartsData)
 
 // save to file in the format based on args, defaults to csv
 const chartsFile = `${outputLocation}charts-${argv.count}_sort-${argv.sort}.${argv.format}`;
-const tabSeparatedResults = csvjs.encode(chartsDataJSON).replace(/,/g, '\t');
-let chartsFileData;
-if (argv.format === 'json') {
-    chartsFileData = chartsDataJSON;
-} else if (argv.format === 'txt') {
-    chartsFileData = tabSeparatedResults;
-} else {
-    chartsFileData = csvjs.encode(chartsDataJSON);
-}
+const csvFields = [argv.count, 'count'];
 
-fs.writeFile(chartsFile, chartsFileData, function(err) {
-    if (err) throw err;
-    console.log(`${log_text.success} Charts file saved to ${chartsFile}`);
+// log tab-separated results to console and save to file after successful csvStringify
+csvStringify(chartsData, { columns: csvFields, header: true }, function(err, csv){
+    if (err) {
+        console.log(`${log_text.error} Encountered an issue while creating CSV results.`)
+    } else {
+        const tsv = csv.replace(/,/g, '\t');
 
-    // output results to console
-    console.log(`${log_text.results} Charts tabulations for '${argv.count}' completed. \n\n\t${tabSeparatedResults.replace(/\n/g, '\n\t')}\n`);
+        // write to file
+        if (argv.format === 'json') {
+            writeToFile(chartsFile, chartsDataJSON);
+        } else if (argv.format === 'txt') {
+            writeToFile(chartsFile, tsv);
+        } else {
+            writeToFile(chartsFile, csv);
+        }
+
+        // output results
+        console.log(`${log_text.results} Charts tabulations for '${argv.count}' completed. \n\n\t${tsv.replace(/\n/g, '\n\t')}\n`);
+    }
 });
+
+function writeToFile(filename, filedata) {
+    fs.writeFile(filename, filedata, function(err) {
+        if (err) throw err;
+        console.log(`${log_text.success} Charts file saved to ${filename}`);
+    });
+}

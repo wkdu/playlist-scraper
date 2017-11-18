@@ -2,7 +2,7 @@ const colors = require('colors/safe');
 const argv = require('minimist')(process.argv.slice(2));
 const async = require('async');
 const scrapeIt = require('scrape-it');
-const csvjs = require('csv.js');
+const csvStringify = require('csv-stringify');
 const fs = require('fs');
 const stringUtil = require('./lib/stringUtil');
 
@@ -120,11 +120,6 @@ function gatherTracks() {
 }
 
 function saveInfo(playlists, tracks) {
-// TO-DO: export playlistsObj as csv or json
-// then loop through playlists, get tracks all into one array, export that as CSV or JSON
-// if argv.charts = new/local, calculate charts
-// total there should be 2 csv/json files minimum, 3 if charting is enabled
-
     // filename should be playlists-${argv.start}-${argv.end}.json or tracks-${argv.start}-${argv.end}.csv/json
     const playlistsFile = `${outputLocation}playlists-${argv.start}-${argv.end}.json`;
     const playlistsData = JSON.stringify(playlists);
@@ -133,17 +128,26 @@ function saveInfo(playlists, tracks) {
 
     let tracksData = JSON.stringify(tracks);
     if (argv.format === 'csv') {
-        tracksData = csvjs.encode(tracksData);
+        const fields = ['artist', 'title', 'album', 'label', 'new', 'local', 'show', 'url'];
+        tracksData = csvStringify(tracks, { columns: fields, header: true }, function(err, csv) {
+            if (err) throw err;
+            else {
+                fs.writeFile(tracksFile, csv, function(err) {
+                    if (err) throw err;
+                    console.log(`${log_text.success} Tracks file saved to ${tracksFile}`);
+                });
+            }
+        });
+    } else {
+        fs.writeFile(tracksFile, tracksData, function(err) {
+            if (err) throw err;
+            console.log(`${log_text.success} Tracks file saved to ${tracksFile}`);
+        });
     }
 
     fs.writeFile(playlistsFile, playlistsData, function(err) {
         if (err) throw err;
         console.log(`${log_text.success} Playlists file saved to ${playlistsFile}`);
-    });
-
-    fs.writeFile(tracksFile, tracksData, function(err) {
-        if (err) throw err;
-        console.log(`${log_text.success} Tracks file saved to ${tracksFile}`);
     });
 }
 
