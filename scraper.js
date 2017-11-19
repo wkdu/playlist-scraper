@@ -54,7 +54,6 @@ async.eachLimit(urls, 3, function(playlistUrl, callback) {
         },
         show: '.panel-col-first .blockpanel .pane-title a'
     }).then(playlist => {
-        const newObj = {};
         let nid = playlistUrl.substring(25); // 25 = "http://wkdu.org/playlist/".length
 
         // invalid or empty playlist 

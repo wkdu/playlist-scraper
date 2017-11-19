@@ -43,7 +43,6 @@ let tracks = [];
 // check file format (csv or json)
 const fileExt = inputFile.substring(inputFile.lastIndexOf('.')+1);
 if (fileExt === 'csv') {
-    // console.log('inputData: ', inputData);
     tracks = csvParse(inputData, { columns: true });
 } else if (fileExt === 'json') {
     tracks = JSON.parse(inputData);
@@ -69,7 +68,7 @@ if (argv.sort === 'atoz') {
     chartsData = chartsData.sort(sortUtil.Counts());
 }
 
-const chartsDataJSON = JSON.stringify(chartsData)
+const chartsDataJSON = JSON.stringify(chartsData);
 
 // save to file in the format based on args, defaults to csv
 const chartsFile = `${outputLocation}charts-${argv.count}_sort-${argv.sort}.${argv.format}`;
@@ -78,7 +77,7 @@ const csvFields = [argv.count, 'count'];
 // log tab-separated results to console and save to file after successful csvStringify
 csvStringify(chartsData, { columns: csvFields, header: true }, function(err, csv){
     if (err) {
-        console.log(`${log_text.error} Encountered an issue while creating CSV results.`)
+        console.log(`${log_text.error} Encountered an issue while creating CSV results.`);
     } else {
         const tsv = csv.replace(/,/g, '\t');
 
