@@ -26,7 +26,6 @@ Scrapes track information from wkdu.org playlists and optionally calculates musi
 **Optional arguments**: `count`, `format`, `sort`
 
 * `count` (`album`, `artist`, or `label`, defaults to `album`) - Counts total number of plays by "artist" or by album with "artist - album", or by record "label".
-* `tracks` (`all`, `local`, or `new`, defaults to `all`) - 
 * `format` (`csv`, `json`, or `txt`, defaults to `csv`) - Output file format
 * `sort` (`atoz` or `count`, defaults to `count`) - Sort output ascending alphabetically (`atoz`) or descending numerically (`count`)
 
