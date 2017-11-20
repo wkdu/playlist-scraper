@@ -32,6 +32,16 @@ Scrapes track information from wkdu.org playlists and optionally calculates musi
 
 **Note**: Chart calculation is not case-sensitive but it does not account for spelling and grammatical mistakes in track information.
 
+## BMI Report Usage
+
+Exports a .CSV file containing fields required for the annual BMI College Radio Report ('Date Played', 'Time Played', 'Song Title', 'Artist Name', 'Composer Name')
+
+'Show Name' and 'Show URL' are added to the end of each track for convenience to validate potential playlist timing issues. (the columns should be deleted before an official BMI report submission)
+
+**Required arguments**: `start`, `end`
+
+`start` and `end` refer to the first and last integer node IDs you want to scrape from wkdu.org (wkdu.org/playlist/*nodeID*)
+
 ## Installation
 
 ```bash
@@ -279,3 +289,27 @@ RESULTS: Charts tabulations for 'album' completed.
     Writhing Squares Too - 7''  1
 
 ```
+
+### BMI Report for 11/12/17 to 11/14/17
+
+```
+$ node bmi-report --start 47420 --end 47429
+
+INFO: Playlist #47420 added with 8 tracks. (1100ccs of Hate)
+INFO: Playlist #47421 added with 25 tracks. (Talk of the Town)
+INFO: Playlist #47422 added with 14 tracks. (Independent Clause)
+INFO: Playlist #47423 added with 30 tracks. (Dial Error)
+INFO: Playlist #47424 added with 31 tracks. (Gallimaufry)
+WARNING: "Open air" has no pre-scheduled time, need to check playlist times manually.
+INFO: Playlist #47425 added with 19 tracks. (Open air)
+WARNING: Playlist #47427 did not exist or was empty. Skipping...
+WARNING: "Open air" has no pre-scheduled time, need to check playlist times manually.
+INFO: Playlist #47426 added with 34 tracks. (Open air)
+INFO: Playlist #47428 added with 24 tracks. (Flaming Arrow)
+INFO: Playlist #47429 added with 28 tracks. (Double Hockey Sticks)
+INFO: 9 playlists have been successfully scraped.
+SUCCESS: Tracks file saved to data/bmi-report-47420-47429.csv
+
+```
+
+Raw file: [data/examples/bmi-report-47420-47429.csv](data/examples/bmi-report-47420-47429.csv)

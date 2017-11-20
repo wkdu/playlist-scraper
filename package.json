@@ -5,7 +5,7 @@
   "main": "scraper.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "node_modules/.bin/eslint scraper.js charts.js lib/; exit 0"
+    "lint": "node_modules/.bin/eslint scraper.js charts.js bmi-report.js lib/; exit 0"
   },
   "repository": {
     "type": "git",
@@ -30,6 +30,7 @@
     "csv-parse": "^2.0.0",
     "csv-stringify": "^2.0.0",
     "minimist": "^1.2.0",
+    "moment": "^2.19.2",
     "scrape-it": "^4.0.0"
   },
   "devDependencies": {
