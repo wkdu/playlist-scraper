@@ -162,6 +162,7 @@ function gatherTracks() {
         return 0;
     }).map(plist => {
         return plist.tracks.map(track => {
+            track.composer = '';
             track.date = plist.date;
             track.time = plist.time;
             track.show = plist.show;
@@ -175,7 +176,7 @@ function gatherTracks() {
 function saveInfo(tracks) {
     // filename should be tracks-${argv.start}-${argv.end}.csv/json
     const tracksFile = `${outputLocation}bmi-report-${argv.start}-${argv.end}.csv`;
-    const fields = ['date', 'time', 'title', 'artist', 'show', 'url'];
+    const fields = ['date', 'time', 'title', 'artist', 'composer', 'show', 'url'];
 
     csvStringify(tracks, { columns: fields, header: true }, function(err, csv) {
         if (err) throw err;
