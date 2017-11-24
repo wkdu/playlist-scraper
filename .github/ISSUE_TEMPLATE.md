@@ -1,6 +1,6 @@
 ### Environment
 
-Node version: 
+Node version: <!-- minimum supported version: v6.7.0 -->
 Operating system: 
 
 ### Expected behavior

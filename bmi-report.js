@@ -44,8 +44,11 @@ const playlists = [];
 const momentMDY = (b => moment(b, 'ddd MM/DD/YY').format('MM/DD/YYYY'));
 
 // parses text for HH:mm:ss formatted string
-// momentHMS - moment('12am', 'HHa').format('HH:mm:ss') => 00:00:00
-const momentHMS = (a => moment(a, 'HHa').format('HH:mm:ss'));
+// momentHHtoHMS - moment('12am', 'HHa').format('HH:mm:ss') => 00:00:00
+const momentHHtoHMS= (a => moment(a, 'HHa').format('HH:mm:ss'));
+
+// momentHMtoHMS - moment('12:30am', 'HH:mma').format('HH:mm:ss') => 00:30:00
+const momentHMtoHMS = (a => moment(a, 'HH:mma').format('HH:mm:ss'));
 
 for (let nid = argv.start; nid <= argv.end; nid++) {
     urls.push(`http://wkdu.org/playlist/${nid}`);
@@ -118,7 +121,9 @@ async.eachLimit(urls, 3, function(playlistUrl, callback) {
                     let meridiem = end.substr(-2); // get am/pm
                     if (start.indexOf('am') === -1 || start.indexOf('pm') === -1) start += meridiem; // add am/pm if not on string yet
 
-                    playlist.time = `${momentHMS(start)}-${momentHMS(end)}`;
+                    start = (start.indexOf(':')) ? momentHMtoHMS(start) : momentHHtoHMS(start);
+                    end = (end.indexOf(':')) ? momentHMtoHMS(end) : momentHHtoHMS(end);
+                    playlist.time = `${start}-${end}`;
                 }
             }
             delete playlist.times;
